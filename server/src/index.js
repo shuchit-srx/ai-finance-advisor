@@ -18,18 +18,18 @@ connectDB();
 
 // Middlewares
 app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  })
+    cors({
+        origin: process.env.CLIENT_URL,
+        credentials: true,
+    })
 );
 app.use(helmet());
 app.use(express.json());
 app.use(morgan("dev"));
 
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 20,
+    windowMs: 15 * 60 * 1000,
+    max: 20,
 });
 app.use("/api/auth", authLimiter);
 
@@ -40,9 +40,9 @@ app.use("/api/budgets", budgetRoutes);
 app.use("/api/summaries", summaryRoutes);
 
 app.get("/", (req, res) => {
-  res.send("API running");
+    res.send("API running");
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });
