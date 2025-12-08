@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-// import { useAuth } from "./context/AuthContext.jsx";
-import AppLayout from "./layout/AppLayout.jsx";
+import { useAuth } from "./context/AuthContext.jsx";
+import AppLayout from "./layouts/AppLayout.jsx";
 
 import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
