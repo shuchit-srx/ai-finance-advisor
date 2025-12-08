@@ -31,8 +31,7 @@ You MUST respond ONLY with a valid JSON object in this exact shape:
 Rules:
 - Do NOT include any extra keys.
 - Do NOT include any explanations or commentary outside the JSON.
-- "savingGoal" must be a number (no currency symbols).
-`;
+- "savingGoal" must be a number (no currency symbols).`;
 
     const model = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
