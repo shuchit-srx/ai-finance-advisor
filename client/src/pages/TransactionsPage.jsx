@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../lib/api";
+import api from "../lib/api.js";
 import CsvUpload from "../components/transactions/CsvUpload.jsx";
 import TransactionForm from "../components/transactions/TransactionForm.jsx";
 import TransactionFilters from "../components/transactions/TransactionFilters.jsx";
