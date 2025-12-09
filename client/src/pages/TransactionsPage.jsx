@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../lib/api.js";
 import TransactionForm from "../components/transactions/TransactionForm.jsx";
 import TransactionBlock from "../components/transactions/TransactionBlock.jsx";
-import CsvUpload from "../components/transactions/csvUpload.jsx";
+import CsvUpload from "../components/transactions/CsvUpload.jsx";
 
 export default function TransactionsPage() {
     const [transactions, setTransactions] = useState([]);
