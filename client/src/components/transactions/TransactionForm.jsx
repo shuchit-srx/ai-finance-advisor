@@ -35,7 +35,7 @@ export default function TransactionForm({ onAdded }) {
                 ...form,
                 amount: parseFloat(form.amount),
             });
-            onAdded && onAdded(data);
+            onAdded();
             setForm({ date: todayStr(), description: "", amount: "", category: "" });
         } catch (err) {
             console.error(err);

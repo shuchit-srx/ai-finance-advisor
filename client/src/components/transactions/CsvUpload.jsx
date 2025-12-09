@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTransactions } from "../../context/TransactionsContext";
 
-export default function CsvUpload() {
+export default function CsvUpload({ onUploaded }) {
   const { uploadCSV } = useTransactions();
 
   const [file, setFile] = useState(null);
@@ -26,11 +26,12 @@ export default function CsvUpload() {
       if (res.status === 409) {
         setResult(
           res.data?.message ||
-            "No new transactions added (all rows were duplicates)."
+          "No new transactions added (all rows were duplicates)."
         );
       } else {
         const inserted = res.data?.insertedCount ?? 0;
         const dup = res.data?.duplicateCount ?? 0;
+        onUploaded();
         setResult(
           `Uploaded ${inserted} rows.`
         );
