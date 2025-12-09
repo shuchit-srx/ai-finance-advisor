@@ -77,7 +77,7 @@ export default function SummaryCards({
                     Alerts & category warnings
                 </p>
 
-                <div className="space-y-1.5 text-xs">
+                <div className="flex flex-wrap gap-2 space-y-1.5 text-xs h-fit">
 
                     {Object.keys(perCategoryStatus).length === 0 && (
                         <p className="text-slate-500">
@@ -86,23 +86,24 @@ export default function SummaryCards({
                     )}
 
                     {Object.entries(perCategoryStatus).map(([cat, status]) => {
+                        cat = cat.charAt(0).toUpperCase() + cat.slice(1);
                         const message =
                             status === "over"
-                                ? `${cat} spending is over limit`
+                                ? `${cat}`
                                 : status === "close"
-                                    ? `${cat} is nearing limit`
+                                    ? `${cat}`
                                     : status === "within"
-                                        ? `${cat} is healthy`
-                                        : `No limit set for ${cat}`;
+                                        ? `${cat}`
+                                        : `${cat}`;
 
                         return (
-                            <div
+                            <span
                                 key={cat}
-                                className={`px-2 py-1 rounded border text-[11px] ${statusColor[status] || "text-slate-400 border-slate-700"
+                                className={`px-2 py-1 h-fit rounded border text-[11px] ${statusColor[status] || "text-slate-400 border-slate-700"
                                     }`}
                             >
                                 {message}
-                            </div>
+                            </span>
                         );
                     })}
                 </div>

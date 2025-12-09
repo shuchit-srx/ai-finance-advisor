@@ -32,9 +32,6 @@ export default function Navbar() {
                 <div className="mx-auto px-6 py-3 flex items-center justify-between gap-3 md:px-10">
                     {/* Brand */}
                     <div className="flex items-center gap-2">
-                        {/* <div className="h-8 w-8 rounded-2xl bg-linear-to-br from-indigo-500 via-emerald-400 to-cyan-400 flex items-center justify-center text-xs font-bold text-slate-950 shadow-[0_0_25px_rgba(34,197,94,0.8)]">
-                            ₹
-                        </div> */}
                         <img src="/icon.png" alt="icon" className="h-7" />
                         <div className="flex flex-col leading-tight">
                             <span className="text-sm font-semibold tracking-tight">

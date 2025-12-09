@@ -120,7 +120,7 @@ export default function DashboardPage() {
             {/* Charts */}
             <SpendingCharts byCategory={byCategory} timeline={timeline} />
 
-            {/* Reader-friendly AI advice block */}
+            {/* AI advice block */}
             <section>
                 <Card className="p-5 mt-2">
                     <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">

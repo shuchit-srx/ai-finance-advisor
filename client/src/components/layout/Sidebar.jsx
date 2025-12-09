@@ -32,8 +32,6 @@ export default function Sidebar() {
                                 ].join(" ")
                             }
                         >
-                            {/* <span className="text-lg">{item.icon}</span> */}
-
                             <span className="font-medium">{item.label}</span>
 
                         </NavLink>

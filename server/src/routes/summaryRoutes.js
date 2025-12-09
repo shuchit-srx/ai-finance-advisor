@@ -2,7 +2,6 @@ import express from "express";
 import { auth } from "../middleware/auth.js";
 import { Transaction } from "../models/Transaction.js";
 import { MonthlySummary } from "../models/MonthlySummary.js";
-// Optional: import { getGeminiModel } from "../utils/aiClient.js";
 
 const router = express.Router();
 

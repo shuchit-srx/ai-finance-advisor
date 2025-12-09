@@ -1,5 +1,8 @@
 import express from "express";
 import cors from "cors";
+import helmet from "helmet";
+import morgan from "morgan";
+import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
 import { connectDB } from "./config/db.js";
 
@@ -13,15 +16,41 @@ connectDB();
 
 const app = express();
 
-app.use(cors());
+// Security headers
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
+
+// Request logging
+app.use(morgan("dev"));
+
+// CORS
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
+
+// Parse JSON body
 app.use(express.json());
 
-// All APIs MUST match axios baseURL: /api
+// Rate limiter (prevents spam)
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 min
+  max: 200,                 // limit each IP
+});
+app.use(limiter);
+
+// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/budgets", budgetRoutes);
 app.use("/api/summaries", summaryRoutes);
 
+// 404 handler
 app.use((req, res) => {
   res.status(404).json({ message: "Route not found" });
 });

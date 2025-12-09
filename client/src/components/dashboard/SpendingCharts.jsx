@@ -14,12 +14,12 @@ import {
 } from "recharts";
 
 const ALL_CATEGORIES = [
-    "food",
-    "rent",
-    "transport",
-    "shopping",
-    "subscriptions",
-    "others",
+    "Food",
+    "Rent",
+    "Transport",
+    "Shopping",
+    "Subscriptions",
+    "Others",
 ];
 
 const COLORS = [

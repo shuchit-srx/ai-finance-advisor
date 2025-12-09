@@ -30,7 +30,6 @@ router.post("/", auth, async (req, res) => {
     }
 });
 
-// Get budget + current spending + status flags
 router.get("/", auth, async (req, res) => {
     try {
         let { month, year } = req.query;

@@ -32,9 +32,7 @@ export default function RegisterPage() {
                 {/* Logo + heading */}
                 <div className="mb-6 text-center">
                     <div className="inline-flex items-center justify-center mb-3">
-                        <div className="h-10 w-10 rounded-2xl bg-linear-to-br from-emerald-400 via-cyan-400 to-indigo-500 flex items-center justify-center text-sm font-bold text-slate-950 shadow-[0_0_30px_rgba(34,197,94,0.7)]">
-                            ₹
-                        </div>
+                        <img src="/icon.png" alt="icon" className="h-12" />
                     </div>
                     <h1 className="text-2xl font-semibold tracking-tight">
                         Create your{" "}
