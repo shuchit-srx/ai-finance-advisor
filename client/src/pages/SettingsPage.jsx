@@ -24,19 +24,21 @@ export default function SettingsPage() {
 
     const [total, setTotal] = useState("");
     const [perCategory, setPerCategory] = useState({});
+    const [savingGoal, setSavingGoal] = useState("");
+
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState("");
 
-    const loadBudgets = async () => {
+    const loadSettings = async () => {
         setLoading(true);
         try {
-            const res = await api.get("/budgets", {
-                params: { month, year },
-            });
+            const [budgetRes, goalRes] = await Promise.all([
+                api.get("/budgets", { params: { month, year } }),
+                api.get("/summaries/goal", { params: { month, year } }),
+            ]);
 
-            const { budget } = res.data || {};
-
+            const { budget } = budgetRes.data || {};
             if (budget) {
                 setTotal(typeof budget.total === "number" ? budget.total : "");
                 setPerCategory(budget.perCategory || {});
@@ -44,15 +46,18 @@ export default function SettingsPage() {
                 setTotal("");
                 setPerCategory({});
             }
+
+            const goalValue = goalRes.data?.savingGoal ?? 0;
+            setSavingGoal(goalValue > 0 ? goalValue : "");
         } catch (err) {
-            console.error("Failed to load budgets", err);
+            console.error("Failed to load settings", err);
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        loadBudgets();
+        loadSettings();
     }, [month, year]);
 
     const handleCategoryChange = (cat, value) => {
@@ -68,6 +73,7 @@ export default function SettingsPage() {
         setMessage("");
 
         try {
+            // Save budgets
             await api.post("/budgets", {
                 month,
                 year,
@@ -75,12 +81,18 @@ export default function SettingsPage() {
                 perCategory,
             });
 
-            setMessage("Budgets updated for this month.");
+            // Save saving goal
+            await api.post("/summaries/goal", {
+                month,
+                year,
+                savingGoal: savingGoal === "" ? 0 : Number(savingGoal),
+            });
 
-            window.location.href = "/";
+            setMessage("Settings updated for this month.");
+            navigate("/");
         } catch (err) {
-            console.error("Failed to save budgets", err);
-            setMessage("Failed to save budgets. Try again.");
+            console.error("Failed to save settings", err);
+            setMessage("Failed to save settings. Try again.");
         } finally {
             setSaving(false);
         }
@@ -96,45 +108,73 @@ export default function SettingsPage() {
     return (
         <div className="max-w-4xl mx-auto mt-6 space-y-6">
             <header>
-                <h1 className="text-2xl font-semibold tracking-tight">Set Budget</h1>
+                <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
                 <p className="text-sm text-slate-400 mt-1">
-                    Configure your monthly budgets and category limits for{" "}
+                    Configure your monthly budgets and saving goal for{" "}
                     <span className="text-slate-100">{monthLabel}</span>.
                 </p>
             </header>
 
             <form onSubmit={handleSave} className="space-y-4">
-                {/* Total budget */}
+                {/* Overall budget + saving goal */}
                 <Card className="p-5">
                     <p className="text-xs uppercase text-slate-400 mb-2">
-                        Overall monthly budget
+                        Overall monthly plan
                     </p>
                     <p className="text-xs text-slate-500 mb-3">
-                        This is your target total spending limit for this month. It&apos;s
-                        used to determine whether you&apos;re within, close to, or over
-                        budget.
+                        Set your total spending limit and the amount you want to save this
+                        month. The dashboard and advice will use these values.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
-                        <div className="flex items-center gap-2 flex-1 max-w-xs">
-                            <span className="text-sm text-slate-400">₹</span>
-                            <input
-                                type="number"
-                                min="0"
-                                value={total}
-                                onChange={(e) => setTotal(e.target.value)}
-                                className="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
-                                placeholder="e.g. 40000"
-                            />
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {/* Total budget */}
+                        <div>
+                            <label className="block text-xs font-medium text-slate-300 mb-1">
+                                Total budget (₹)
+                            </label>
+                            <div className="flex items-center gap-2 max-w-xs">
+                                <span className="text-sm text-slate-400">₹</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    value={total}
+                                    onChange={(e) => setTotal(e.target.value)}
+                                    className="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    placeholder="e.g. 40000"
+                                />
+                            </div>
+                            <p className="text-[11px] text-slate-500 mt-1">
+                                Leave empty or 0 if you don&apos;t want a global limit.
+                            </p>
                         </div>
-                        <p className="text-[11px] text-slate-500">
-                            Leave empty or 0 if you don&apos;t want a global limit.
-                        </p>
+
+                        {/* Saving goal */}
+                        <div>
+                            <label className="block text-xs font-medium text-slate-300 mb-1">
+                                Monthly saving goal (₹)
+                            </label>
+                            <div className="flex items-center gap-2 max-w-xs">
+                                <span className="text-sm text-slate-400">₹</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    value={savingGoal}
+                                    onChange={(e) => setSavingGoal(e.target.value)}
+                                    className="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                                    placeholder="e.g. 8000"
+                                />
+                            </div>
+                            <p className="text-[11px] text-slate-500 mt-1">
+                                This is the amount you want to keep aside after all income and
+                                expenses.
+                            </p>
+                        </div>
                     </div>
                 </Card>
 
                 {/* Per-category budgets */}
                 <Card className="p-5">
-                    <p className="text-xs uppercase text-slate-400 mb-2">
+                    <p className="text-xs uppercase text-slate-400 mb-1 font-bold">
                         Per-category limits
                     </p>
                     <p className="text-xs text-slate-500 mb-4">
@@ -156,9 +196,7 @@ export default function SettingsPage() {
                                         value={
                                             perCategory[cat] === undefined ? "" : perCategory[cat]
                                         }
-                                        onChange={(e) =>
-                                            handleCategoryChange(cat, e.target.value)
-                                        }
+                                        onChange={(e) => handleCategoryChange(cat, e.target.value)}
                                         className="w-full rounded-lg bg-slate-900 border border-slate-700 px-3 py-2 text-sm text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                                         placeholder="No limit"
                                     />
@@ -182,9 +220,7 @@ export default function SettingsPage() {
                     >
                         {saving ? "Saving..." : "Save changes"}
                     </button>
-                    {message && (
-                        <p className="text-xs text-slate-300">{message}</p>
-                    )}
+                    {message && <p className="text-xs text-slate-300">{message}</p>}
                 </div>
             </form>
         </div>

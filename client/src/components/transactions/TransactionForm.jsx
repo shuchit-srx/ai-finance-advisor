@@ -46,7 +46,7 @@ export default function TransactionForm({ onAdded }) {
 
     return (
         <Card className="p-4 mt-4">
-            <p className="text-sm  mb-3 uppercase text-slate-400 font-bold">
+            <p className="text-sm uppercase text-slate-400 mb-2 font-bold">
                 Add transaction
             </p>
             <form

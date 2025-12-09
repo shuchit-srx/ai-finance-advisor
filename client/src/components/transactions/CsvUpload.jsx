@@ -43,9 +43,9 @@ export default function CsvUpload({ onUploaded }) {
 
   return (
     <div className="p-4 mt-4 rounded-xl border border-slate-800 bg-slate-900/70">
-      <div className="flex gap-1 mb-3 items-end font-bold text-slate-400">
-        <p className="text-sm uppercase">Upload CSV</p>
-        <p className="text-[10px] italic">[date,description,amount]</p>
+      <div className="flex gap-1.5 mb-3 items-end font-bold text-slate-400">
+        <p className="text-sm uppercase font-bold">Upload CSV</p>
+        <p className="text-[9px] italic">[YYYY-MM-DD, description, amount]</p>
       </div>
 
       <div className="flex items-center gap-3 mb-4">
@@ -67,14 +67,14 @@ export default function CsvUpload({ onUploaded }) {
         </span>
       </div>
 
-      <div className="text-xs text-slate-400 mb-3">
+      <div className="text-xs text-slate-400 mb-4">
         <label className="mr-3">
           <input
             type="radio"
             value="skip"
             checked={duplicateMode === "skip"}
             onChange={() => setDuplicateMode("skip")}
-            className="mr-1"
+            className="mr-1 align-middle"
           />
           Skip duplicates
         </label>
@@ -85,7 +85,7 @@ export default function CsvUpload({ onUploaded }) {
             value="allow"
             checked={duplicateMode === "allow"}
             onChange={() => setDuplicateMode("allow")}
-            className="mr-1"
+            className="mr-1 align-middle"
           />
           Allow duplicates
         </label>
@@ -102,7 +102,7 @@ export default function CsvUpload({ onUploaded }) {
       </button>
 
       {result && (
-        <p className="mt-3 text-xs text-slate-300 whitespace-pre-line">
+        <p className="mt-3 text-xs text-amber-200 whitespace-pre-line">
           {result}
         </p>
       )}

@@ -14,12 +14,12 @@ import {
 } from "recharts";
 
 const ALL_CATEGORIES = [
-    "Food",
-    "Rent",
-    "Transport",
-    "Shopping",
-    "Subscriptions",
-    "Others",
+    "food",
+    "rent",
+    "transport",
+    "shopping",
+    "subscriptions",
+    "others",
 ];
 
 const COLORS = [
@@ -45,53 +45,55 @@ export default function SpendingCharts({ byCategory, timeline }) {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-3 mt-4">
 
             {/* Pie Chart for Categories */}
-            <Card className="p-4 md:col-span-2 h-72">
-                <p className="text-sm font-medium text-slate-100 mb-2">
+            <Card className="p-4 md:col-span-2 h-78 ">
+                <p className="text-xs uppercase text-slate-400 mb-2 font-bold">
                     Spending by category
                 </p>
+                {categoryData[0] ?
+                    <div className="w-full h-[85%]">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <PieChart>
+                                <Pie
+                                    data={categoryData}
+                                    dataKey="value"
+                                    nameKey="name"
+                                    cx="50%"
+                                    cy="50%"
+                                    outerRadius="80%"
+                                    label
+                                >
+                                    {categoryData.map((entry, index) => (
+                                        <Cell
+                                            key={`cell-${index}`}
+                                            fill={COLORS[index % COLORS.length]}
+                                        />
+                                    ))}
+                                </Pie>
 
-                <div className="w-full h-[85%]">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                            <Pie
-                                data={categoryData}
-                                dataKey="value"
-                                nameKey="name"
-                                cx="50%"
-                                cy="50%"
-                                outerRadius="80%"
-                                label
-                            >
-                                {categoryData.map((entry, index) => (
-                                    <Cell
-                                        key={`cell-${index}`}
-                                        fill={COLORS[index % COLORS.length]}
-                                    />
-                                ))}
-                            </Pie>
+                                <Tooltip
+                                    contentStyle={{
+                                        backgroundColor: "#020617",
+                                        border: "1px solid #1e293b",
+                                        borderRadius: "0.5rem",
+                                        fontSize: "12px",
+                                    }}
+                                />
 
-                            <Tooltip
-                                contentStyle={{
-                                    backgroundColor: "#020617",
-                                    border: "1px solid #1e293b",
-                                    borderRadius: "0.5rem",
-                                    fontSize: "12px",
-                                }}
-                            />
+                                <Legend />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div> : <div className="text-sm h-full w-full text-center px-3 py-4 text-slate-500">
+                        No transactions found.
+                    </div>}
 
-                            <Legend />
-                        </PieChart>
-                    </ResponsiveContainer>
-                </div>
             </Card>
 
             {/* Timeline Chart */}
-            <Card className="p-4 md:col-span-3 h-72">
-                <p className="text-sm font-medium text-slate-100 mb-2">
+            <Card className="p-4 md:col-span-3 max-h-78">
+                <p className="text-xs uppercase text-slate-400 mb-2 font-bold">
                     Activity over time
                 </p>
-
-                <div className="w-full h-[85%]">
+                {timelineData[0] ? <div className="w-full h-[85%]">
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={timelineData}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#1f2937" />
@@ -115,7 +117,10 @@ export default function SpendingCharts({ byCategory, timeline }) {
                             />
                         </LineChart>
                     </ResponsiveContainer>
-                </div>
+                </div> : <div className="text-sm h-full w-full text-center px-3 py-4 text-slate-500">
+                    No transactions found.
+                </div>}
+
             </Card>
 
         </div>

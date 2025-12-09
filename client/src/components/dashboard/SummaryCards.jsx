@@ -67,14 +67,14 @@ export default function SummaryCards({
                         : "Not set"}
                 </p>
                 <p className="text-xs text-slate-500 mt-1">
-                    Configure in Settings for better AI advice.
+                    Configure in Set Budget for better AI advice.
                 </p>
             </Card>
 
             {/* Alerts */}
             <Card className="p-4">
                 <p className="text-xs uppercase text-slate-400 mb-2 font-bold">
-                    Alerts & category warnings
+                    Category Budget Alerts
                 </p>
 
                 <div className="flex flex-wrap gap-2 space-y-1.5 text-xs h-fit">

@@ -126,7 +126,7 @@ export default function DashboardPage() {
                     <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                         {/* Summary text */}
                         <div className="flex-1">
-                            <p className="text-xs uppercase text-slate-400 mb-1">
+                            <p className="text-xs uppercase text-slate-400 mb-2 font-bold">
                                 Latest AI advice
                             </p>
                             <p className="text-sm text-slate-200 leading-relaxed">
@@ -137,7 +137,7 @@ export default function DashboardPage() {
 
                         {/* Suggestions & focus areas */}
                         <div className="flex-1 mt-3 md:mt-0 md:pl-6 border-t md:border-t-0 md:border-l border-slate-800 pt-3 md:pt-0">
-                            <p className="text-xs uppercase text-slate-400 mb-1">
+                            <p className="text-xs uppercase text-slate-400 mb-2 font-bold">
                                 Suggested focus areas
                             </p>
                             <p className="text-sm text-slate-200 leading-relaxed mb-2">
@@ -162,50 +162,6 @@ export default function DashboardPage() {
                                     </div>
                                 </div>
                             )}
-                        </div>
-                    </div>
-                </Card>
-            </section>
-
-            {/* Quick tips section */}
-            <section>
-                <Card className="p-5">
-                    <div className="flex flex-col gap-4 md:flex-row md:gap-8">
-                        <div className="flex-1">
-                            <p className="text-xs uppercase text-slate-400 mb-1">
-                                Quick tips
-                            </p>
-                            <p className="text-sm text-slate-300 mb-3">
-                                Small changes add up. Use these to keep your monthly spending
-                                predictable and less chaotic.
-                            </p>
-                            <ul className="space-y-1.5 text-xs text-slate-300">
-                                <li>• Fix a weekly limit for food & ordering in.</li>
-                                <li>• Check subscriptions once a month and cancel what you
-                                    don&apos;t use.
-                                </li>
-                                <li>• Move savings to a separate account at the start of the
-                                    month.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div className="flex-1 border-t md:border-t-0 md:border-l border-slate-800 pt-3 md:pt-0 md:pl-6">
-                            <p className="text-xs uppercase text-slate-400 mb-1">
-                                Practical habits
-                            </p>
-                            <ul className="space-y-1.5 text-xs text-slate-300">
-                                <li>
-                                    • Before big purchases, wait 24 hours and decide again.
-                                </li>
-                                <li>
-                                    • Group transport tasks (shopping, errands) to cut
-                                    fuel/rides.
-                                </li>
-                                <li>
-                                    • Review this dashboard once a week instead of ignoring it.
-                                </li>
-                            </ul>
                         </div>
                     </div>
                 </Card>
