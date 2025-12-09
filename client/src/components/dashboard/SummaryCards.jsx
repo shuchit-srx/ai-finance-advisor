@@ -13,6 +13,7 @@ const statusColor = {
     over: "bg-rose-500/10 text-rose-300 border-rose-500/40",
     "no-budget": "bg-slate-700/40 text-slate-300 border-slate-600",
 };
+
 export default function SummaryCards({
     totalSpent,
     totalBudget,
@@ -70,37 +71,40 @@ export default function SummaryCards({
                 </p>
             </Card>
 
-            {/* Category Signals */}
+            {/* Alerts */}
             <Card className="p-4">
                 <p className="text-xs uppercase text-slate-400 mb-2 font-bold">
-                    Category signals
+                    Alerts & category warnings
                 </p>
 
                 <div className="space-y-1.5 text-xs">
+
                     {Object.keys(perCategoryStatus).length === 0 && (
                         <p className="text-slate-500">
-                            No per-category limits configured.
+                            No per-category budgets set.
                         </p>
                     )}
 
-                    {Object.entries(perCategoryStatus).map(([cat, status]) => (
-                        <div
-                            key={cat}
-                            className="flex items-center justify-between"
-                        >
-                            <span className="capitalize text-slate-300">
-                                {cat}
-                            </span>
-                            <span
-                                className={
-                                    "text-[11px] font-medium " +
-                                    (statusColor[status] || "text-slate-400")
-                                }
+                    {Object.entries(perCategoryStatus).map(([cat, status]) => {
+                        const message =
+                            status === "over"
+                                ? `${cat} spending is over limit`
+                                : status === "close"
+                                    ? `${cat} is nearing limit`
+                                    : status === "within"
+                                        ? `${cat} is healthy`
+                                        : `No limit set for ${cat}`;
+
+                        return (
+                            <div
+                                key={cat}
+                                className={`px-2 py-1 rounded border text-[11px] ${statusColor[status] || "text-slate-400 border-slate-700"
+                                    }`}
                             >
-                                {statusLabel[status] || "No budget"}
-                            </span>
-                        </div>
-                    ))}
+                                {message}
+                            </div>
+                        );
+                    })}
                 </div>
             </Card>
 

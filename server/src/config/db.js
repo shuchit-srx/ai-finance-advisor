@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 export const connectDB = async () => {
   try {
-    const uri = process.env.MONGO_URI;
+    const uri = (process.env.MONGO_URI).replace("[PASSWORD]", process.env.DB_PASSWORD);
     if (!uri) {
       throw new Error("MONGO_URI not set in environment");
     }

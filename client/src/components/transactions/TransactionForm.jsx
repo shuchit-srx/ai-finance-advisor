@@ -46,8 +46,8 @@ export default function TransactionForm({ onAdded }) {
 
     return (
         <Card className="p-4 mt-4">
-            <p className="text-sm font-medium mb-3">
-                Add transaction (for testing / manual entry)
+            <p className="text-sm  mb-3 uppercase text-slate-400 font-bold">
+                Add transaction
             </p>
             <form
                 onSubmit={handleSubmit}

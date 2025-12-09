@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useTransactions } from "../../context/TransactionsContext";
 
-export default function CsvUpload() {
+export default function CsvUpload({ onUploaded }) {   // ✅ accept callback
     const { uploadCSV } = useTransactions();
 
     const [file, setFile] = useState(null);
@@ -18,6 +18,8 @@ export default function CsvUpload() {
         try {
             const res = await uploadCSV(file, duplicateMode);
             setResult(`Uploaded ${res.insertedCount} rows successfully`);
+
+            if (onUploaded) onUploaded();   // ✅ refresh transactions
         } catch (err) {
             console.error("Upload Error:", err);
 
@@ -33,7 +35,10 @@ export default function CsvUpload() {
 
     return (
         <div className="p-4 mt-4 rounded-xl border border-slate-800 bg-slate-900/70">
-            <p className="text-sm text-slate-300 mb-2">Upload CSV bank statement</p>
+            <div className="flex gap-1 mb-3 items-end font-bold text-slate-400">
+                <p className="text-sm uppercase ">Upload CSV </p>
+                <p className="text-[8px] italic"> [YYYY-MM-DD, description, amount]</p>
+            </div>
 
             <div className="flex items-center gap-3 mb-4">
                 <label

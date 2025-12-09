@@ -1,16 +1,26 @@
 import Card from "../common/Card";
 import {
     ResponsiveContainer,
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
+    PieChart,
+    Pie,
+    Cell,
     Tooltip,
+    Legend,
     LineChart,
     Line,
+    XAxis,
+    YAxis,
     CartesianGrid,
-    Cell,
 } from "recharts";
+
+const ALL_CATEGORIES = [
+    "food",
+    "rent",
+    "transport",
+    "shopping",
+    "subscriptions",
+    "others",
+];
 
 const COLORS = [
     "#6366F1", // indigo
@@ -23,27 +33,43 @@ const COLORS = [
 ];
 
 export default function SpendingCharts({ byCategory, timeline }) {
-    const categoryData = Object.entries(byCategory || {}).map(
-        ([category, amount]) => ({
-            category,
-            amount,
-        })
-    );
+    const categoryData = ALL_CATEGORIES.map((cat) => ({
+        name: cat.charAt(0).toUpperCase() + cat.slice(1),
+        value: byCategory[cat] || 0,
+    }));
+
 
     const timelineData = Array.isArray(timeline) ? timeline : [];
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mt-4">
-            {/* Category bar chart */}
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-3 mt-4">
+
+            {/* Pie Chart for Categories */}
             <Card className="p-4 md:col-span-2 h-72">
                 <p className="text-sm font-medium text-slate-100 mb-2">
                     Spending by category
                 </p>
+
                 <div className="w-full h-[85%]">
                     <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={categoryData}>
-                            <XAxis dataKey="category" stroke="#64748b" />
-                            <YAxis stroke="#64748b" />
+                        <PieChart>
+                            <Pie
+                                data={categoryData}
+                                dataKey="value"
+                                nameKey="name"
+                                cx="50%"
+                                cy="50%"
+                                outerRadius="80%"
+                                label
+                            >
+                                {categoryData.map((entry, index) => (
+                                    <Cell
+                                        key={`cell-${index}`}
+                                        fill={COLORS[index % COLORS.length]}
+                                    />
+                                ))}
+                            </Pie>
+
                             <Tooltip
                                 contentStyle={{
                                     backgroundColor: "#020617",
@@ -51,26 +77,20 @@ export default function SpendingCharts({ byCategory, timeline }) {
                                     borderRadius: "0.5rem",
                                     fontSize: "12px",
                                 }}
-                                cursor={{ fill: "rgba(255,255,255,0.04)" }}
                             />
-                            <Bar dataKey="amount" radius={[6, 6, 0, 0]}>
-                                {categoryData.map((entry, index) => (
-                                    <Cell
-                                        key={`cell-${index}`}
-                                        fill={COLORS[index % COLORS.length]}
-                                    />
-                                ))}
-                            </Bar>
-                        </BarChart>
+
+                            <Legend />
+                        </PieChart>
                     </ResponsiveContainer>
                 </div>
             </Card>
 
-            {/* Timeline line chart */}
+            {/* Timeline Chart */}
             <Card className="p-4 md:col-span-3 h-72">
                 <p className="text-sm font-medium text-slate-100 mb-2">
                     Activity over time
                 </p>
+
                 <div className="w-full h-[85%]">
                     <ResponsiveContainer width="100%" height="100%">
                         <LineChart data={timelineData}>
@@ -97,6 +117,7 @@ export default function SpendingCharts({ byCategory, timeline }) {
                     </ResponsiveContainer>
                 </div>
             </Card>
+
         </div>
     );
 }
