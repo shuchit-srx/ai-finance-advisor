@@ -72,6 +72,7 @@ export default function DashboardPage() {
     let totalSpent = 0;
     let totalStatus;
     let perCategoryStatus = {};
+    let totalBudget = 0;
 
     if (budgetData) {
         if (typeof budgetData.totalSpent === "number") {
@@ -82,6 +83,9 @@ export default function DashboardPage() {
         }
         if (budgetData.perCategoryStatus) {
             perCategoryStatus = budgetData.perCategoryStatus;
+        }
+        if (budgetData.budget && typeof budgetData.budget.total === "number") {
+            totalBudget = budgetData.budget.total;
         }
     }
 
@@ -105,11 +109,13 @@ export default function DashboardPage() {
             {/* Summary cards */}
             <SummaryCards
                 totalSpent={totalSpent}
+                totalBudget={totalBudget}
                 totalStatus={totalStatus}
                 savingGoal={summary?.savingGoal || 0}
                 monthLabel={monthLabel}
                 perCategoryStatus={perCategoryStatus}
             />
+
 
             {/* Charts */}
             <SpendingCharts byCategory={byCategory} timeline={timeline} />
@@ -175,12 +181,10 @@ export default function DashboardPage() {
                             </p>
                             <ul className="space-y-1.5 text-xs text-slate-300">
                                 <li>• Fix a weekly limit for food & ordering in.</li>
-                                <li>
-                                    • Check subscriptions once a month and cancel what you
+                                <li>• Check subscriptions once a month and cancel what you
                                     don&apos;t use.
                                 </li>
-                                <li>
-                                    • Move savings to a separate account at the start of the
+                                <li>• Move savings to a separate account at the start of the
                                     month.
                                 </li>
                             </ul>

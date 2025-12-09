@@ -13,90 +13,97 @@ const statusColor = {
     over: "bg-rose-500/10 text-rose-300 border-rose-500/40",
     "no-budget": "bg-slate-700/40 text-slate-300 border-slate-600",
 };
-
 export default function SummaryCards({
     totalSpent,
+    totalBudget,
     totalStatus,
     savingGoal,
     monthLabel,
     perCategoryStatus = {},
 }) {
-    const alertCategories = Object.entries(perCategoryStatus).filter(
-        ([, status]) => status === "over" || status === "close"
-    );
+    const formattedSpent = `₹${totalSpent.toLocaleString("en-IN")}`;
+    const formattedBudget =
+        totalBudget && totalBudget > 0
+            ? `₹${totalBudget.toLocaleString("en-IN")}`
+            : "No budget";
+
+    const ratioLabel =
+        totalBudget && totalBudget > 0
+            ? `${formattedSpent} / ${formattedBudget}`
+            : formattedSpent;
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* Total spending card */}
-            <Card className="p-5">
-                <p className="text-xs uppercase text-slate-400">
-                    This month ({monthLabel})
+        <div className="grid gap-4 md:grid-cols-3 mt-4">
+
+            {/* This Month */}
+            <Card className="p-4">
+                <p className="text-xs uppercase text-slate-400 mb-1 font-bold">
+                    This month
                 </p>
-                <p className="text-3xl font-semibold mt-2">
-                    ₹{totalSpent.toFixed(2)}
+                <p className="text-xs text-slate-300 mb-1">{monthLabel}</p>
+
+                <p className="text-lg md:text-xl font-semibold text-slate-50">
+                    {ratioLabel}
                 </p>
-                <div className="mt-3">
+
+                <div className="mt-2">
                     <span
-                        className={`inline-flex items-center px-2 py-1 rounded-full text-[11px] border ${statusColor[totalStatus]}`}
+                        className={`inline-flex items-center px-2 py-1 rounded-full text-[9px] border ${statusColor[totalStatus]}`}
                     >
                         {statusText[totalStatus] || "No budget set"}
                     </span>
                 </div>
             </Card>
 
-            {/* Saving goal card */}
-            <Card className="p-5">
-                <p className="text-xs uppercase text-slate-400">
-                    Suggested monthly saving
+            {/* Saving Goal */}
+            <Card className="p-4">
+                <p className="text-xs uppercase text-slate-400 mb-1 font-bold">
+                    Monthly saving goal
                 </p>
-                <p className="text-3xl font-semibold mt-2">
-                    {savingGoal ? `₹${savingGoal.toFixed(2)}` : "—"}
+                <p className="text-lg md:text-xl font-semibold text-emerald-400">
+                    {savingGoal
+                        ? `₹${savingGoal.toLocaleString("en-IN")}`
+                        : "Not set"}
                 </p>
-                <p className="text-xs text-slate-400 mt-2">
-                    Based on your recent spending pattern.
+                <p className="text-xs text-slate-500 mt-1">
+                    Configure in Settings for better AI advice.
                 </p>
             </Card>
 
-            {/* Alerts & signals card (replaces quick tips) */}
-            <Card className="p-5">
-                <p className="text-xs uppercase text-slate-400">Alerts & signals</p>
+            {/* Category Signals */}
+            <Card className="p-4">
+                <p className="text-xs uppercase text-slate-400 mb-2 font-bold">
+                    Category signals
+                </p>
 
-                <div className="mt-3 space-y-2 text-xs">
-                    <div
-                        className={`inline-flex items-center px-2 py-1 rounded-full border ${statusColor[totalStatus]}`}
-                    >
-                        <span className="mr-1.5 h-1.5 w-1.5 rounded-full bg-current" />
-                        <span className="capitalize">
-                            {statusText[totalStatus] || "No budget set"}
-                        </span>
-                    </div>
-
-                    {alertCategories.length > 0 ? (
-                        <div className="space-y-1 mt-2">
-                            <p className="text-slate-400">
-                                Watch these categories:
-                            </p>
-                            <div className="flex flex-wrap gap-1.5">
-                                {alertCategories.map(([cat, status]) => (
-                                    <span
-                                        key={cat}
-                                        className={`px-2 py-1 rounded-full border text-[11px] ${status === "over"
-                                                ? "bg-rose-500/10 text-rose-300 border-rose-500/40"
-                                                : "bg-amber-500/10 text-amber-300 border-amber-500/40"
-                                            }`}
-                                    >
-                                        {cat}: {status === "over" ? "over" : "near limit"}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                    ) : (
-                        <p className="text-slate-400 mt-2">
-                            No categories are in the danger zone right now. Keep it steady.
+                <div className="space-y-1.5 text-xs">
+                    {Object.keys(perCategoryStatus).length === 0 && (
+                        <p className="text-slate-500">
+                            No per-category limits configured.
                         </p>
                     )}
+
+                    {Object.entries(perCategoryStatus).map(([cat, status]) => (
+                        <div
+                            key={cat}
+                            className="flex items-center justify-between"
+                        >
+                            <span className="capitalize text-slate-300">
+                                {cat}
+                            </span>
+                            <span
+                                className={
+                                    "text-[11px] font-medium " +
+                                    (statusColor[status] || "text-slate-400")
+                                }
+                            >
+                                {statusLabel[status] || "No budget"}
+                            </span>
+                        </div>
+                    ))}
                 </div>
             </Card>
+
         </div>
     );
 }
