@@ -1,7 +1,7 @@
 // client/src/components/chat/ChatWidget.jsx
 import React, { useEffect, useRef, useState } from "react";
 import { useChat } from "../../context/ChatContext.jsx";
-import api from "../../lib/api.js"; 
+import api from "../../lib/api.js";
 
 function Avatar({ who = "bot" }) {
   return (
@@ -70,9 +70,11 @@ export default function ChatWidget() {
           {/* Header */}
           <div className="flex items-center justify-between px-4 py-3 bg-slate-900/90 border-b border-slate-800">
             <div className="flex items-center gap-3">
-              <div className="h-9 w-9 rounded-lg bg-emerald-400 flex items-center justify-center font-bold text-slate-900">AI</div>
+              <div className="h-6 w-6 rounded-xl bg-linear-to-br from-emerald-500/80 to-cyan-400/80 flex items-center justify-center text-[11px] font-semibold text-slate-950 shadow-[0_0_18px_rgba(45,212,191,0.5)]">
+                AI
+              </div>
               <div>
-                <div className="text-sm font-semibold">FinChat</div>
+                <div className="text-sm font-semibold">Fin AI</div>
                 <div className="text-xs text-slate-400">Ask about your spending</div>
               </div>
             </div>

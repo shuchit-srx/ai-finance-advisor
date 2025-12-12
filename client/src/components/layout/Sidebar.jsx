@@ -48,7 +48,7 @@ export default function Sidebar() {
                         title="Ask AI about your spending"
                     >
                         <span className="text-lg">💬</span>
-                        <span className="font-medium">Ask AI</span>
+                        <span className="font-medium">Fin AI</span>
                         <span className="ml-auto text-xs text-slate-400">Chat</span>
                     </button>
                 </div>
