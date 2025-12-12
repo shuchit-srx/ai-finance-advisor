@@ -45,7 +45,7 @@ Respond ONLY with valid JSON (no extra text).
 `;
 
     try {
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-mini" }); // pick available model
+        const model = genAI.getGenerativeModel({ model: "gemini-3.0-mini" }); // pick available model
         const result = await model.generateContent(prompt);
         const raw = (await result.response.text()).trim();
         const cleaned = raw.replace(/```json/gi, "").replace(/```/g, "").trim();
