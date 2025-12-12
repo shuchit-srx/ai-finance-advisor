@@ -10,6 +10,7 @@ import authRoutes from "./routes/authRoutes.js";
 import transactionRoutes from "./routes/transactionRoutes.js";
 import budgetRoutes from "./routes/budgetRoutes.js";
 import summaryRoutes from "./routes/summaryRoutes.js";
+import chatRoutes from "./routes/chatRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -44,6 +45,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/transactions", transactionRoutes);
 app.use("/api/budgets", budgetRoutes);
 app.use("/api/summaries", summaryRoutes);
+app.use("/api/chat", chatRoutes);
 
 // 404 handler
 app.use((req, res) => {
