@@ -1,6 +1,8 @@
 import { useState, useMemo } from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext.jsx";
+import { useChat } from "../../context/ChatContext";
+
 
 const links = [
     { label: "Dashboard", to: "/" },
@@ -24,6 +26,8 @@ export default function Navbar() {
 
     const toggle = () => setOpen((v) => !v);
     const close = () => setOpen(false);
+
+    const { openChat } = useChat();
 
     return (
         <header className="fixed top-0 inset-x-0 z-40">
@@ -147,6 +151,20 @@ export default function Navbar() {
                                 </li>
                             ))}
                         </ul>
+                        <div className="mt-4 mb-3 px-3">
+                            <button
+                                onClick={() => {
+                                    setOpen(false);
+                                    openChat();
+                                }}
+                                className="cursor-pointer mt-4 mb-3 flex items-center gap-3 w-full px-3 py-2 rounded-lg hover:bg-slate-900/60 text-slate-200 bg-linear-to-r from-slate-800/40 to-slate-900/40 border border-slate-800"
+                                title="Ask AI about your spending"
+                            >
+                                <span className="text-lg">💬</span>
+                                <span className="font-medium">Fin AI</span>
+                                <span className="ml-auto text-xs text-slate-400">Chat</span>
+                            </button>
+                        </div>
                     </nav>
                 )
             }

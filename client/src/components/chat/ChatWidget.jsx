@@ -58,10 +58,17 @@ export default function ChatWidget() {
   };
 
   return (
-    <div className="fixed right-5 bottom-5 z-50">
+    <div className="fixed right-3 bottom-5 z-50 ">
       <div className="flex justify-end mb-2">
-        <button onClick={toggleChat} className="px-3 py-1 rounded-full bg-slate-900 border border-slate-700 text-sm text-slate-200 shadow">
-          {open ? "Close" : "Chat"}
+        <button onClick={toggleChat} className="rounded-full bg-slate-900 border border-slate-700 text-sm text-slate-200 shadow">
+          {open ?
+            <div className="cursor-pointer h-8 w-14 rounded-xl bg-linear-to-br from-emerald-500/80 to-cyan-400/80 flex items-center justify-center ">
+              <div className=" rounded-xl min-h-7 min-w-13 flex justify-center items-center text-[12px] font-semibold text-slate-950 shadow-[0_0_18px_rgba(45,212,191,0.5)]">
+                Close
+              </div>
+            </div> : <div className="cursor-pointer h-10 w-10 rounded-4xl bg-linear-to-br from-emerald-500/80 to-cyan-400/80 flex items-center justify-center text-[16px] font-semibold text-slate-950 shadow-[0_0_18px_rgba(45,212,191,0.5)]">
+              AI
+            </div>}
         </button>
       </div>
 
