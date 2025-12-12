@@ -10,7 +10,7 @@ const fallback = (transactions) => {
     }
     const sorted = Object.entries(byCat).sort((a, b) => b[1] - a[1]);
     const top = sorted.slice(0, 3).map(([c]) => c);
-    
+
     return {
         summaryText: `You spent approximately ₹${Math.round(total)} recently. Top categories: ${top.join(", ") || "none"}.`,
         topCategories: top,
@@ -20,7 +20,10 @@ const fallback = (transactions) => {
 };
 
 export const getSpendingAnalysis = async (transactions, userQuery = "") => {
-    // 1. Initialize Client INSIDE the function to ensure env vars are ready
+    const now = new Date();
+    const today = now.toISOString().split("T")[0];
+    const currentTime = now.toTimeString().split(" ")[0];
+
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
         console.warn("⚠️ GEMINI_API_KEY is missing. Using fallback.");
@@ -35,7 +38,6 @@ export const getSpendingAnalysis = async (transactions, userQuery = "") => {
         return fallback(transactions);
     }
 
-    // 2. Prepare Data (Limit to last 100 to save tokens)
     const recent = transactions.slice(-100).map(t => ({
         date: t.date ? new Date(t.date).toISOString().split("T")[0] : "Unknown Date",
         description: t.description || "No desc",
@@ -45,6 +47,10 @@ export const getSpendingAnalysis = async (transactions, userQuery = "") => {
 
     const systemInstruction = `
     You are a friendly and astute financial advisor. 
+    Current Context:
+- Today's date: ${today}
+- Current time: ${currentTime}
+
     You have access to the user's recent transaction history (JSON array).
     
     Your Goal:
@@ -70,8 +76,7 @@ export const getSpendingAnalysis = async (transactions, userQuery = "") => {
     `;
 
     try {
-        // 3. Use the correct model name
-        const model = genAI.getGenerativeModel({ 
+        const model = genAI.getGenerativeModel({
             model: "gemini-2.5-flash", // Corrected from 2.5-flash
             generationConfig: { responseMimeType: "application/json" }
         });
